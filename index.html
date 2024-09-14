@@ -57,11 +57,11 @@
 
             <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
             <pre><code class="language-html">
-&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;FormActionURL&quot; method=&quot;POST&quot; enctype=&quot;text/plain&quot;&gt;<br>
+&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;FormActionURL&quot; method=&quot;POST&quot; enctype=&quot;text/plain&quot; autocomplete=&quot;on&quot;&gt;<br>
     &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;<br>
     &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;<br>
     &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your Name&quot;&gt;<br>
-    &lt;input type=&quot;text&quot; name=&quot;message&quot; placeholder=&quot;Your Message&quot;&gt;<br>
+    &lt;input type=&quot;text&quot; name=&quot;message&quot; placeholder=&quot;Your Message&quot; autocomplete=&quot;off&quot;&gt;<br>
     &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;<br>
     &lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;<br>
 &lt;/form&gt;
@@ -107,7 +107,7 @@
             <p>Let's start with Telegram related setup.</p>
             
             <label for="apiKey">Enter Bot API Token:<br></label>
-            <input type="text" id="apiKey" size="50">
+            <input type="text" id="apiKey" size="50" autocomplete="on">
             <br><br>
             <label for="chatID">Send any text to the Bot. Then click the following.<br></label>
             <input type="button" value="Chat ID:" onClick="chatID();">
@@ -122,7 +122,7 @@
                 <option value="https://demo.httprelay.io/link">https://demo.httprelay.io/link</option>
             </select>
             /
-            <input type="text" id="uuid" size="37" placeholder="Any unique URL-safe string as path">
+            <input type="text" id="uuid" size="37" placeholder="Any unique URL-safe string as path" autocomplete="on">
             <br><br>
             <button onClick="startWorker(); this.disabled = true;">Use the above to launch server</button>
         </section>
@@ -132,8 +132,8 @@
 
             <form accept-charset="UTF-8" method="POST" enctype="text/plain">
                 <input type="hidden" name="formID" value="tester">
-                <input type="email" name="email" placeholder="Your Email">
-                <input type="text" name="name" placeholder="Your Name">
+                <input type="email" name="email" placeholder="Your Email" autocomplete="on">
+                <input type="text" name="name" placeholder="Your Name" autocomplete="on">
                 <input type="text" name="message" placeholder="Your Message">
                 <button type="submit" id="testFormBtn" onClick="alert('Taking you to a new page to show status of the Post you just made. Make sure you come back to this page after inspection.');">Post</button>
                 <button type="reset">Reset</button>
