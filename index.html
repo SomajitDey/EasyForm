@@ -98,6 +98,19 @@ To setup the HTML Form Action URL, choose a relay URL and enter a UUID (<input t
 <input type="button" value="Use the above to launch server" onClick="startWorker(); this.disabled=true;">
 </div>
 
+<section id="testForm" style="display:none">
+    <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post!</p>
+    <form accept-charset="UTF-8" method="POST" enctype="text/plain">
+        <input type="hidden" name="formID" value="tester">
+        <input type="email" name="email" placeholder="Your Email">
+        <input type="text" name="name" placeholder="Your Name">
+        <input type="text" name="message" placeholder="Your Message">
+        <button type="submit" id="testFormBtn"
+            onClick="alert('Taking you to a new page to show status of the Post you just made. Make sure you come back to this page after inspection.');">Post</button>
+        <button type="reset">Reset</button>
+    </form>
+</section>
+
 <h3>Log:</h3>
 
 <p id="logs"></p>
@@ -149,7 +162,10 @@ client submits form ==&gt; <a href="https://github.com/nwtgck/piping-server">pip
         getFrom = document.getElementById("relay").value + '/' + document.getElementById("uuid").value;
         postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
         TGchatID = document.getElementById("chatID").value;
-        document.getElementById("config").innerHTML = 'HTML Form Action URL: <u>' + getFrom + '</u>'
+        document.getElementById("config").innerHTML = 'HTML Form Action URL: <u>' + getFrom + '</u>';
+        document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
+        document.getElementById("testForm").style.display = "block";
+        document.getElementById("config").scrollIntoView();
     }
 
     function startWorker(){
