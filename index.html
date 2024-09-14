@@ -25,8 +25,8 @@
         <h3>Menu</h3>
 
 <div class="d-flex flex-column justify-content-center align-items-center mt-5 pt-5">
- <button type="button" class="btn btn-primary mt-5">About</button>
-    <button type="button" class="btn btn-primary mt-4">Server</button>
+ <button type="button" class="btn btn-primary mt-5" onClick="showOnly('about');">About</button>
+    <button type="button" class="btn btn-primary mt-4" onClick="showOnly('testForm');">Server</button>
     <a href="#" class="btn btn-primary mt-4">Source</a>
     <a href="#" class="btn btn-primary mt-4">Donate</a>
     <a href="#" class="btn btn-primary mt-4">License</a>
@@ -159,6 +159,13 @@
             let getFrom, postTo, TGchatID;
             const logs = document.getElementById("logs");
             const toggleServer = document.getElementById("toggleServer");
+            
+            function showOnly(id){
+                for (let el of document.getElementsByTagName("section")){
+                    el.style.display = 'none';
+                }
+                document.getElementById(id).style.display = 'block';
+            }
             
             function logThis(report){
                 logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
