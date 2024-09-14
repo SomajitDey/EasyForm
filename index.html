@@ -3,13 +3,16 @@
 
 <head>
 <title>EasyForm</title>
+<meta name="description" content="Free, self-hosted, open-source form backend solution. No installation required for hosting. Lightweight server runs in browser. Backend sends form data as a Telegram bot to your Telegram account.">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
-<link href="themes/prism.css" rel="stylesheet">
+<link rel="stylesheet" href="themes/prism.css">
 </head>
 
 <body>
@@ -18,19 +21,23 @@
 
 <h3>About:</h3>
 
-EasyForm gives you a free and easy self-hosted solution for adding (contact) forms to your static website(s). You don't, however, need
-to configure any server or install anything. Your browser becomes your server!<br>
-<br>
-Your smartphone or PC is perhaps always connected to the internet, even on the move. So, if you keep your browser open there, and a very 
-light-weight JavaScript server runs in it, you are essentially "self-hosting" for free. EasyForm capitalizes on this. 
-All you need to do is the following:<br>
+<p>EasyForm gives you a free and easy, self-hosted form backend solution for adding (contact) forms to your static website(s). You don't, however, need
+to configure any server or install anything. Your browser becomes your server!</p>
+
+<p>Your smartphone or PC is perhaps always connected to the internet, even on the move. So, if you keep your browser open there, and a very 
+light-weight JavaScript server runs in it, you are essentially "self-hosting" for free. EasyForm capitalizes on this. Also, the ability to run in a
+browser makes EasyForm platform-independent!</p>
+
+<p>Working with EasyForm is dead simple. All you need to do is the following:
 <ul>
     <li>Create a Telegram Bot and store its API token. This is easy. Just open a chat with <a href="https://t.me/botfather">@BotFather</a> in Telegram
         and send: /newbot</li>
     <li>Follow instructions in the <b>Config:</b> section below. You will be required to choose a Form Action URL there</li>
     <li>Use your chosen Form Action URL in your (contact) form</li>
 </ul>
-Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.<br>
+Whenever your users submit the form, you will get a Telegram text containing the users' form data from the Telegram Bot you created.</p>
+
+<p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.
 <pre><code class="language-html">
 &lt;!DOCTYPE html&gt;<br>
 &lt;html&gt;<br>
@@ -47,15 +54,18 @@ Here is an HTML code snippet you can readily embed as a basic contact form in yo
 <br>
 &lt;/body&gt;<br>
 &lt;/html&gt;<br>
-</code></pre>
-<br>
-<b>Tips:</b>
+</code></pre></p>
+
+<p><strong>Tips:</strong>
 <ul>
     <li>Securely store your Bot API token and Form Action URL for future reference.</li>
     <li>For reproducibility upon page reload/refresh, reuse the previous values, often suggested by the browser, during config.</li>
-</ul>
-EasyForm is open-<a href="https://github.com/somajitdey/easyform">source</a> and hence, supposed to be secure.<br>
-If you like EasyForm, consider supporting ==&gt; <a href='https://buymeacoffee.com/SomajitDey'><img src="./bmc-button.svg" alt="BMC" style="zoom:20%;" /></a>
+</ul></p>
+
+<p>EasyForm is open-<a href="https://github.com/somajitdey/easyform">source</a> and hence, supposed to be secure.</p>
+
+<p>If you like EasyForm, consider supporting ==&gt; <a href='https://buymeacoffee.com/SomajitDey'><img src="./bmc-button.svg" alt="BMC" style="zoom:20%;" /></a></p>
+
 <h3>Config:</h3>
 
 <div id="config">
