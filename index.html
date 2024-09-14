@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>EasyForm</title>
+        <meta name="description" content="Free, self-hosted, open-source form backend solution. No installation required for hosting. Lightweight server runs in browser. Backend sends form data as a Telegram bot to your Telegram account.">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="stylesheet" href="themes/prism.css">
+    </head>
+    <body>
 
-<head>
-<title>EasyForm</title>
-<meta name="description" content="Free, self-hosted, open-source form backend solution. No installation required for hosting. Lightweight server runs in browser. Backend sends form data as a Telegram bot to your Telegram account.">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="themes/prism.css">
-</head>
+        <section id="title"><h1>Welcome to EasyForm</h1></section>
 
-<body>
+        <section id="about">
+            <h3>About:</h3>
 
-<h1>Welcome to EasyForm</h1>
+            <p>EasyForm gives you a free and easy, self-hosted form backend solution for adding (contact) forms to your static website(s). You don't, however, need
+            to configure any server or install anything. Your browser becomes your server!</p>
+            
+            <p>Your smartphone or PC is perhaps always connected to the internet, even on the move. So, if you keep your browser open there, and a very 
+            light-weight JavaScript server runs in it, you are essentially "self-hosting" for free. EasyForm capitalizes on this. Also, the ability to run in a
+            browser makes EasyForm platform-independent!</p>
 
-<h3>About:</h3>
+            Working with EasyForm is dead simple. All you need to do is the following:
+            <ul>
+                <li>Create a Telegram Bot and store its API token. This is easy. Just open a chat with <a href="https://t.me/botfather">@BotFather</a> in Telegram
+                and send: /newbot</li>
+                <li>Follow instructions in the <b>Config:</b> section below. You will be required to choose a Form Action URL there</li>
+                <li>Use your chosen Form Action URL in your (contact) form</li>
+            </ul>
+            Whenever your users submit the form, you will get a Telegram text containing the users' form data from the Telegram Bot you created.
 
-<p>EasyForm gives you a free and easy, self-hosted form backend solution for adding (contact) forms to your static website(s). You don't, however, need
-to configure any server or install anything. Your browser becomes your server!</p>
-
-<p>Your smartphone or PC is perhaps always connected to the internet, even on the move. So, if you keep your browser open there, and a very 
-light-weight JavaScript server runs in it, you are essentially "self-hosting" for free. EasyForm capitalizes on this. Also, the ability to run in a
-browser makes EasyForm platform-independent!</p>
-
-<p>Working with EasyForm is dead simple. All you need to do is the following:
-<ul>
-    <li>Create a Telegram Bot and store its API token. This is easy. Just open a chat with <a href="https://t.me/botfather">@BotFather</a> in Telegram
-        and send: /newbot</li>
-    <li>Follow instructions in the <b>Config:</b> section below. You will be required to choose a Form Action URL there</li>
-    <li>Use your chosen Form Action URL in your (contact) form</li>
-</ul>
-Whenever your users submit the form, you will get a Telegram text containing the users' form data from the Telegram Bot you created.</p>
-
-<p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.
-<pre><code class="language-html">
+            <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
+            <pre><code class="language-html">
 &lt;form accept-charset=&quot;UTF-8&quot; action=&quot;FormActionURL&quot; method=&quot;POST&quot; enctype=&quot;text/plain&quot;&gt;<br>
     &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;<br>
     &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;<br>
@@ -47,164 +46,158 @@ Whenever your users submit the form, you will get a Telegram text containing the
     &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;<br>
     &lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;<br>
 &lt;/form&gt;
-</code></pre></p>
+</code></pre>
 
-<p><strong>Tips:</strong>
-<ul>
-    <li>Securely store your Bot API token and Form Action URL for future reference.</li>
-    <li>For reproducibility upon page reload/refresh, reuse the previous values, often suggested by the browser, during config.</li>
-</ul></p>
+            <strong>Tips:</strong>
+            <ul>
+                <li>Securely store your Bot API token and Form Action URL for future reference.</li>
+                <li>For reproducibility upon page reload/refresh, reuse the previous values, often suggested by the browser, during config.</li>
+            </ul>
 
-<p>EasyForm is open-<a href="https://github.com/somajitdey/easyform">source</a> and hence, supposed to be secure.</p>
+            <p>EasyForm is open-<a href="https://github.com/somajitdey/easyform">source</a> and hence, supposed to be secure.</p>
 
-<p>Feel free to <a href="https://github.com/SomajitDey/EasyForm/discussions/1">get in touch</a> for posting any comment, feature request or query.</p>
+            <p>Feel free to <a href="https://github.com/SomajitDey/EasyForm/discussions/1">get in touch</a> for posting any comment, feature request or query.</p>
 
-<p>If you like EasyForm, consider supporting ==&gt; <a href='https://buymeacoffee.com/SomajitDey'><img src="bmc-button.svg" alt="BMC" style="zoom:20%;"></a></p>
+            <p>If you like EasyForm, consider supporting ==&gt; <a href='https://buymeacoffee.com/SomajitDey'><img src="bmc-button.svg" alt="BMC" style="zoom:20%;"></a></p>
 
-<h3>Config:</h3>
+            <h3>Internals:</h3>
 
-<div id="config">
+            <p>client submits form ==&gt; <a href="https://github.com/nwtgck/piping-server">piping-server</a> or <a href="https://httprelay.io/">http-relay</a>
+            ==&gt; this server (browser) ==&gt; Telegram Bot API</p>
 
-Let's start with Telegram related setup.
+            <h3>Credits:</h3>
+            <ul>
+                <li><a href="https://github.com/nwtgck/piping-server">piping-server</a></li>
+                <li><a href="https://httprelay.io/">http-relay</a></li>
+                <li><a href="https://prismjs.com/">prism</a></li>
+                <li><a href="https://www.lambdatest.com/free-online-tools/html-escape">lambdatest</a></li>
+                <li><a href="https://favicon.io/">favicon.io</a></li>
+                <li><a href="https://github.com/twitter/twemoji/blob/master/assets/svg/1f5e8.svg">twitter/twemoji</a></li>
+            </ul>
 
-<br><br>
+            <h3>License:</h3>
 
-<label for="apiKey">Enter Bot API Token:<br></label>
-<input type="text" id="apiKey" size="50">
+            <a href="https://github.com/somajitdey/easyform?tab=MIT-1-ov-file#MIT-1-ov-file">MIT</a>
 
-<br><br>
+            <h3>Copyright &copy; 2024 Somajit Dey </h3>
+        </section>
 
-<label for="chatID">Send any text to the Bot. Then click the following.<br></label>
-<input type="button" value="Chat ID:" onClick="chatID();">
-<input type="text" id="chatID">
+        <section id="config">
+            <h3>Config:</h3>
+ 
+            <p>Let's start with Telegram related setup.</p>
+            
+            <label for="apiKey">Enter Bot API Token:<br></label>
+            <input type="text" id="apiKey" size="50">
+            <br><br>
+            <label for="chatID">Send any text to the Bot. Then click the following.<br></label>
+            <input type="button" value="Chat ID:" onClick="chatID();">
+            <input type="text" id="chatID">
+            
+            <p>To setup the HTML Form Action URL, choose a relay URL and enter a UUID (<input type="button" value="fill with random" onClick="genUUID();">):</p>
 
-<br><br>
+            <label for="relay">Form Action URL=</label>
+            <select id="relay">
+                <option value="https://ppng.io">https://ppng.io</option>
+                <option value="https://piping.glitch.me">https://piping.glitch.me</option>
+                <option value="https://demo.httprelay.io/link">https://demo.httprelay.io/link</option>
+            </select>
+            /
+            <input type="text" id="uuid" size="37" placeholder="Any unique URL-safe string as path">
+            <br><br>
+            <button onClick="startWorker(); this.disabled = true;">Use the above to launch server</button>
+        </section>
 
-To setup the HTML Form Action URL, choose a relay URL and enter a UUID (<input type="button" value="fill with random" onClick="genUUID();">):
+        <section id="testForm" style="display:none">
+            <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post!</p>
 
-<br><br>
+            <form accept-charset="UTF-8" method="POST" enctype="text/plain">
+                <input type="hidden" name="formID" value="tester">
+                <input type="email" name="email" placeholder="Your Email">
+                <input type="text" name="name" placeholder="Your Name">
+                <input type="text" name="message" placeholder="Your Message">
+                <button type="submit" id="testFormBtn" onClick="alert('Taking you to a new page to show status of the Post you just made. Make sure you come back to this page after inspection.');">Post</button>
+                <button type="reset">Reset</button>
+            </form>
+        </section>
 
-<label for="relay">Form Action URL=</label>
 
-<select id="relay">
-    <option value="https://ppng.io">https://ppng.io</option>
-    <option value="https://piping.glitch.me">https://piping.glitch.me</option>
-    <option value="https://demo.httprelay.io/link">https://demo.httprelay.io/link</option>
-</select>
-/
-<input type="text" id="uuid" size="37" placeholder="Any unique URL-safe string as path">
+        <section id="log">
+            <h3>Log:</h3>
 
-<br><br>
-<input type="button" value="Use the above to launch server" onClick="startWorker(); this.disabled=true;">
-</div>
+            <div id="logs"></div>
+            <br><br>
 
-<section id="testForm" style="display:none">
-    <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post!</p>
-    <form accept-charset="UTF-8" method="POST" enctype="text/plain">
-        <input type="hidden" name="formID" value="tester">
-        <input type="email" name="email" placeholder="Your Email">
-        <input type="text" name="name" placeholder="Your Name">
-        <input type="text" name="message" placeholder="Your Message">
-        <button type="submit" id="testFormBtn"
-            onClick="alert('Taking you to a new page to show status of the Post you just made. Make sure you come back to this page after inspection.');">Post</button>
-        <button type="reset">Reset</button>
-    </form>
-</section>
+            <input type="button" id="toggleServer" value="Kill Server" disabled=true; onclick="toggleWorker();">
+        </section>
 
-<h3>Log:</h3>
-
-<p id="logs"></p>
-
-<input type="button" id="toggleServer" value="Kill Server" disabled=true; onclick="toggleWorker();">
-
-<h3>Internals:</h3>
-
-client submits form ==&gt; <a href="https://github.com/nwtgck/piping-server">piping-server</a> or <a href="https://httprelay.io/">http-relay</a> ==&gt; this server (browser) ==&gt; Telegram Bot API
-
-<h3>Credits:</h3>
-<ul>
-    <li><a href="https://github.com/nwtgck/piping-server">piping-server</a></li>
-    <li><a href="https://httprelay.io/">http-relay</a></li>
-    <li><a href="https://prismjs.com/">prism</a></li>
-    <li><a href="https://www.lambdatest.com/free-online-tools/html-escape">lambdatest</a></li>
-    <li><a href="https://favicon.io/">favicon.io</a></li>
-    <li><a href="https://github.com/twitter/twemoji/blob/master/assets/svg/1f5e8.svg">twitter/twemoji</a></li>
-</ul>
-
-<h3>License:</h3>
-<a href="https://github.com/somajitdey/easyform?tab=MIT-1-ov-file#MIT-1-ov-file">MIT</a>
-
-<h3>Copyright &copy; 2024 Somajit Dey </h3>
-
-<script>
-    let myWorker = null;
-    let getFrom, postTo, TGchatID;
-    const logs = document.getElementById("logs");
-    const toggleServer = document.getElementById("toggleServer");
-
-    function logThis(report){
-        logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
-    }
-
-    function genUUID(){
-        document.getElementById("uuid").setAttribute('value', crypto.randomUUID()); // Generate random UUID
-    }
-    
-    const chatID = async () => {
-        logThis("Configuring chatID")
-        const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
-        const response = await fetch(apiEndpoint); // Make request
-        const data = await response.json();
-        document.getElementById("chatID").value = data.result[0].message.chat.id;
-    }
-    
-    function config(){
-        getFrom = document.getElementById("relay").value + '/' + document.getElementById("uuid").value;
-        postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
-        TGchatID = document.getElementById("chatID").value;
-        document.getElementById("config").innerHTML = 'HTML Form Action URL: <u>' + getFrom + '</u>';
-        document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
-        document.getElementById("testForm").style.display = "block";
-        document.getElementById("config").scrollIntoView();
-    }
-
-    function startWorker(){
-        if (getFrom === undefined){
-            config();
-        }
-
-        myWorker = new Worker("worker.js");
-
-        myWorker.onmessage = (e) => {
-            logThis(e.data);
-        }
-
-        myWorker.postMessage([getFrom, postTo, TGchatID]);
-
-        toggleServer.value = "Kill Server";
-        toggleServer.disabled = false;
-
-        logThis("Server started");
-    }
-
-    function stopWorker(){
-        myWorker.terminate();
-        myWorker = null;
-        console.log("Worker terminated");
-        toggleServer.value = "Launch Server"
-        logThis("Server stopped");
-    }
-
-    function toggleWorker(){
-        if (myWorker != null){
-            stopWorker();
-        } else {
-            startWorker();
-        }
-    }
-</script>
-
-<script src="prism.js"></script>
-
-</body>
+        <script>
+            let myWorker = null;
+            let getFrom, postTo, TGchatID;
+            const logs = document.getElementById("logs");
+            const toggleServer = document.getElementById("toggleServer");
+            
+            function logThis(report){
+                logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
+            }
+            
+            function genUUID(){
+                document.getElementById("uuid").setAttribute('value', crypto.randomUUID()); // Generate random UUID
+            }
+            
+            const chatID = async () => {
+                logThis("Configuring chatID")
+                const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
+                const response = await fetch(apiEndpoint); // Make request
+                const data = await response.json();
+                document.getElementById("chatID").value = data.result[0].message.chat.id;
+            }
+            
+            function config(){
+                getFrom = document.getElementById("relay").value + '/' + document.getElementById("uuid").value;
+                postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
+                TGchatID = document.getElementById("chatID").value;
+                document.getElementById("config").innerHTML = 'HTML Form Action URL: <u>' + getFrom + '</u>';
+                document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
+                document.getElementById("testForm").style.display = "block";
+                document.getElementById("config").scrollIntoView();
+            }
+            
+            function startWorker(){
+                if (getFrom === undefined){
+                    config();
+                }
+            
+                myWorker = new Worker("worker.js");
+            
+                myWorker.onmessage = (e) => {
+                    logThis(e.data);
+                }
+            
+                myWorker.postMessage([getFrom, postTo, TGchatID]);
+            
+                toggleServer.value = "Kill Server";
+                toggleServer.disabled = false;
+            
+                logThis("Server started");
+            }
+            
+            function stopWorker(){
+                myWorker.terminate();
+                myWorker = null;
+                console.log("Worker terminated");
+                toggleServer.value = "Launch Server"
+                logThis("Server stopped");
+            }
+            
+            function toggleWorker(){
+                if (myWorker != null){
+                    stopWorker();
+                } else {
+                    startWorker();
+                }
+            }
+        </script>
+        <script src="prism.js"></script>
+    </body>
 </html>
