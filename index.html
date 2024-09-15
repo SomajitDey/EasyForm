@@ -59,7 +59,7 @@
 
             <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
             <pre><code class="language-html">
-&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;FormActionURL&quot; method=&quot;POST&quot; enctype=&quot;text/plain&quot; autocomplete=&quot;on&quot;&gt;<br>
+&lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot; accept-charset=&quot;UTF-8&quot; enctype=&quot;text/plain&quot;&gt;<br>
     &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;<br>
     &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;<br>
     &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your Name&quot;&gt;<br>
@@ -67,6 +67,8 @@
     &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;<br>
     &lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;<br>
 &lt;/form&gt;
+&lt;!-- when the form is submitted, the server response will appear in this iframe, hidden from view --&gt;
+&lt;iframe name=&quot;hidden_iframe&quot; src=&quot;about:blank&quot; hidden&gt;&lt;/iframe&gt;
 </code></pre>
 
             <strong>Tips:</strong>
@@ -119,7 +121,7 @@
         <div id="testForm" style="display:none">
             <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post! Your posted data should also be logged below.</p>
 
-            <form accept-charset="UTF-8" method="POST" enctype="text/plain">
+            <form method="POST" target="hidden_iframe" accept-charset="UTF-8" enctype="text/plain">
                 <input type="hidden" name="formID" value="tester">
   <div class="row mt-2">
     <div class="col">
@@ -130,9 +132,10 @@
 </div>
                 <input type="text" class="form-control mt-2" name="message" placeholder="Your Message" required>
 </div>
-                <button type="submit" id="testFormBtn" class="btn btn-info mt-2" onclick="alert('Taking you to a new page to show status of the Post you just made. Make sure you come back to this page after inspection.');">Post</button>
+                <button type="submit" id="testFormBtn" class="btn btn-info mt-2" onclick="alert('Thanks for your message!');">Post</button>
                 <button type="reset" class="btn btn-warning mt-2">Reset</button>
             </form>
+            <iframe name="hidden_iframe" src="about:blank" hidden></iframe>
         </div>
 
 
