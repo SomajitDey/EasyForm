@@ -60,7 +60,7 @@
                                 Whenever your users submit the form, you will get a Telegram text containing the users' form data from the Telegram Bot you created.
                                 <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
                                 <pre><code class="language-html">
-&lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot; accept-charset=&quot;UTF-8&quot; enctype=&quot;text/plain&quot;&gt;
+&lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot;&gt;
     &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;
     &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;
     &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your Name&quot;&gt;
@@ -93,15 +93,16 @@
                             <section>
                                 <h3>Server</h3>
                                 <div id="config">
-                                    <p>Let's start with Telegram related setup.</p>
-                                    <label for="apiKey" class="form-label">1. Enter Bot API Token:</label>
+                                <form onsubmit="startWorker(); return false;">
+                                    <p>Setup in just 3 easy steps.</p>
+                                    <label for="apiKey" class="form-label">1. Enter your Telegram Bot API Token:</label>
                                     <input type="text" id="apiKey" class="form-control" autocomplete="on" required>
                                     <br>
-                                    <p>2. Send any text to the Bot. Then, click the following.</p>
-                                    <button onclick="chatID();">Chat ID:</button>
-                                    <input type="text" id="chatID" required>
-                                    <br>
-                                    <p>To setup the HTML Form Action URL, choose a relay URL and enter a UUID (<button onclick="genUUID();">fill with random</button>):</p>
+                                    <p>2. Send any text to the Bot. Then, click Fetch Chat ID. Or, enter your chat ID if you know what you're doing :-)</p>
+                                    <button onclick="fetchChatID();">Fetch Chat ID</button>
+                                    <input type="text" id="chatID" placeholder="Enter Chat ID" required>
+                                    <br><br>
+                                    <p>3. To setup the HTML Form Action URL, choose a relay URL and enter a UUID (<button onclick="genUUID();">fill with random</button>):</p>
                                     <label for="relay">Form Action URL=</label>
                                     <select id="relay">
                                         <option value="https://ppng.io">https://ppng.io</option>
@@ -109,13 +110,14 @@
                                         <option value="https://demo.httprelay.io/link">https://demo.httprelay.io/link</option>
                                     </select>
                                     /
-                                    <input type="text" id="uuid" size="9" autocomplete="on" required>
+                                    <input type="text" id="uuid" size="9" autocomplete="on" placeholder="UUID" required>
                                     <br><br>
-                                    <button onclick="startWorker(); this.disabled = true;" class="btn btn-success">Use the above to launch server</button>
+                                    <button type="submit" class="btn btn-success">Use the above to launch server</button>
+                                </form>
                                 </div>
                                 <div id="testForm" style="display:none">
                                     <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post! Your posted data should also be logged below.</p>
-                                    <form method="POST" target="hidden_iframe" accept-charset="UTF-8" enctype="text/plain">
+                                    <form method="POST" target="hidden_iframe">
                                         <input type="hidden" name="formID" value="tester">
                                         <div class="row mt-2">
                                             <div class="col">
@@ -145,8 +147,8 @@
                 </div>
             </div>
         </div>
-        <script src="app/server.js"></script>
         <script src="app/spa.js"></script>
         <script src="themes/prism.js"></script>
+        <script src="app/server.js"></script>
     </body>
 </html>
