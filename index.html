@@ -60,7 +60,7 @@
                                 Whenever your users submit the form, you will get a Telegram text containing the users' form data from the Telegram Bot you created.
                                 <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
                                 <pre><code class="language-html">
-&lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot; accept-charset=&quot;UTF-8&quot; enctype=&quot;text/plain&quot;&gt;
+&lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot;&gt;
     &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;
     &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;
     &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your Name&quot;&gt;
@@ -115,7 +115,7 @@
                                 </div>
                                 <div id="testForm" style="display:none">
                                     <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post! Your posted data should also be logged below.</p>
-                                    <form method="POST" target="hidden_iframe" accept-charset="UTF-8" enctype="text/plain">
+                                    <form method="POST" target="hidden_iframe">
                                         <input type="hidden" name="formID" value="tester">
                                         <div class="row mt-2">
                                             <div class="col">
