@@ -11,8 +11,8 @@ function genUUID() {
     document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
 }
 
-const chatID = async () => {
-    logThis("Configuring chatID")
+const fetchChatID = async () => {
+    logThis("Fetching Telegram chat ID")
     const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
     const data = await response.json();
@@ -36,10 +36,17 @@ function startWorker() {
 
     myWorker = new Worker("app/bg-worker.js");
 
+    // Register handler for messages from the background worker
     myWorker.onmessage = (e) => {
-        logThis(e.data);
+        let isFormData = e.data[1];
+        if (isFormData) {
+            logThis('Received: ' + e.data[0]);
+        } else {
+            logThis('Error: ' + e.data[0] + 'See console for details.');
+        }
     }
 
+    // Communicate key data to the background worker
     myWorker.postMessage([getFrom, postTo, TGchatID]);
 
     toggleServer.value = "Kill Server";
@@ -55,7 +62,7 @@ function stopWorker() {
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
-    document.getElementById("serverStatus").innerHTML = "Stopped";
+    document.getElementById("serverStatus").innerHTML = "Killed";
 }
 
 function toggleWorker() {

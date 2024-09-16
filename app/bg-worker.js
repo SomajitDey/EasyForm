@@ -1,7 +1,7 @@
-onmessage = (e) => {
-  console.log("Message received from main script: " + JSON.stringify(e.data));
-  pollApi(e.data[0], e.data[1], e.data[2]);
-};
+// Code for background worker.
+// Its purpose is to listen to piping-server for form data and post to Telegram when received, i.e. relaying.
+// Polling piping-server API is achieved using setTimeout for efficiency. One relay seeds the next before returning.
+// 'main' in the following refers to server.js.
 
 function urlEncoded2Json(str){
     const arr = str.split('&');
@@ -18,11 +18,9 @@ function urlEncoded2Json(str){
 }
 
 async function pollApi(getFrom, postTo, TGchatID) {
-    
-    const pollingInterval = 5; // in milliseconds
-    
-    const makeRequest = async () => {
-        let data;
+
+    const relay = async () => {
+        let data; // This will hold the received URL encoded form data
         
         // Listen to piping-server
         try {
@@ -31,16 +29,17 @@ async function pollApi(getFrom, postTo, TGchatID) {
             
         } catch (error) {
             console.error(Date() + ': Error making GET request --', error);
-            postMessage('errGet:' + error); // Send error to main for logging
+            // Send error to main for logging
+            postMessage(['Failed to fetch form data.', false]);
             return;
 
         } finally {
-            setTimeout(makeRequest, pollingInterval); // Schedule next request
+            setTimeout(relay, 0); // Schedule next relay
         }
 
-        let payload = {chat_id: TGchatID, text: urlEncoded2Json(data)}; // Payload for Telegram API
-        
         // POST to Telegram
+        let payload = {chat_id: TGchatID, text: urlEncoded2Json(data)}; // conforming to Telegram API schema
+
         try {
             await fetch(postTo, {
                 method: "POST",
@@ -50,14 +49,20 @@ async function pollApi(getFrom, postTo, TGchatID) {
 
         } catch (error) {        
             console.error(Date() + ': Error making POST request --', error);
-            postMessage('errPost:' + error); // Send error to main for logging
+            // Send error to main for logging
+            postMessage(['Failed to post form data to Telegram.', false]);
             return;
         }
 
+        postMessage([urlEncoded2Json(data),true]); // Send URL decoded form data as JSON string to main for logging
         console.log(Date() + ": Relay complete.");
-        postMessage(urlEncoded2Json(data)); // Send data to main for logging
-
     };
 
-    makeRequest(); // Start the first request
+    relay(); // Start the first relay
 }
+
+// Register pollApi has handler for the event of receiving any message from main
+onmessage = (e) => {
+  console.log("Message received from main script: " + JSON.stringify(e.data));
+  pollApi(e.data[0], e.data[1], e.data[2]);
+};
