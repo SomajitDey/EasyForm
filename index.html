@@ -113,7 +113,7 @@
                 <option value="https://demo.httprelay.io/link">https://demo.httprelay.io/link</option>
             </select>
             /
-            <input type="text" id="uuid" size="37" placeholder="Any unique URL-safe string as path" autocomplete="on" required>
+            <input type="text" id="uuid" size="10" placeholder="Any unique URL-safe string as path" autocomplete="on" required>
             <br><br>
             <button onclick="startWorker(); this.disabled = true;" class="btn btn-success">Use the above to launch server</button>
         </div>
@@ -173,7 +173,11 @@
             }
             
             function genUUID(){
-                document.getElementById("uuid").setAttribute('value', crypto.randomUUID()); // Generate random UUID
+                // Generate random string. crypto.randomUUID() outputs 36 char long UUID. We want length=10 only
+                const bytes = crypto.getRandomValues(new Uint32Array(2));
+                const array2str = new TextDecoder('ascii');
+                const str = btoa(array2str.decode(bytes)).substr(0,10).replace(/\//g,'-').replace(/\+/g,'_');
+                document.getElementById("uuid").value = str;
             }
             
             const chatID = async () => {
