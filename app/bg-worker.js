@@ -25,9 +25,9 @@ async function pollApi(getFrom, postTo, TGchatID) {
         // Listen to piping-server
         try {
             const response = await fetch(getFrom); // Make request
-            data = await response.text();
+            data = urlEncoded2Json(await response.text());
             // Send URL decoded form data as JSON string to main for logging. Also pass an error level.
-            postMessage([urlEncoded2Json(data), 0]);
+            postMessage([data, 0]);
             
         } catch (error) {
             console.error(Date() + ': Error making GET request --', error);
@@ -40,7 +40,7 @@ async function pollApi(getFrom, postTo, TGchatID) {
         }
 
         // POST to Telegram
-        let payload = {chat_id: TGchatID, text: urlEncoded2Json(data)}; // conforming to Telegram API schema
+        let payload = {chat_id: TGchatID, text: data}; // conforming to Telegram API schema
 
         try {
             const response = await fetch(postTo, {
