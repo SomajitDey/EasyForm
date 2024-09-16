@@ -7,6 +7,32 @@ function logThis(report) {
     logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
 }
 
+function inbox(json){
+    const data = JSON.parse(json); // Read form data into entry object
+    data.time = Date();
+    const keysEnumArray = Object.keys(data);
+
+    // Create table row:
+    const row = document.createElement("tr");
+
+    for (let key in keysEnumArray) {
+        // Create cell:
+        const cell = document.createElement("td");
+
+        // Create a text entry:
+        const entry = document.createTextNode(eval("data." + keysEnumArray[key]));
+
+        // Append entry to cell:
+        cell.appendChild(entry);
+
+        // Append cell to row:
+        row.appendChild(cell);        
+    }
+
+    // Append row to table body:
+    document.getElementById("inboxTable").appendChild(row);
+}
+
 function genUUID() {
     document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
 }
@@ -38,15 +64,17 @@ function startWorker() {
 
     // Register handler for messages from the background worker
     myWorker.onmessage = (e) => {
-        let errLvl = e.data[1];
+        const errLvl = e.data[1];
+        const msg = e.data[0];
         if (! errLvl) {
-            logThis('Received: ' + e.data[0]);
+            inbox(msg);
+            logThis('Received: ' + msg);
         } else if (errLvl === 1) {
             stopWorker();
-            logThis('Fatal Error: ' + e.data[0] + ' See console for details.');
+            logThis('Fatal Error: ' + msg + ' See console for details.');
             alert('Server stopped due to some critical error');
         } else {
-            logThis('Error: ' + e.data[0] + ' See console for details.');
+            logThis('Error: ' + msg + ' See console for details.');
         }
     }
 

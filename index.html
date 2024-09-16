@@ -26,10 +26,10 @@
                         <div class="d-flex flex-column justify-content-center align-items-center mt-2 mb-3 pb-3">
                             <button type="button" class="btn btn-primary mt-5" onclick="spaGoTo('about');">About</button>
                             <button type="button" class="btn btn-primary mt-4" onclick="spaGoTo('server');">Server</button>
+                            <button type="button" class="btn btn-primary mt-4" onclick="spaGoTo('inbox');">Inbox</button>
                             <a href="https://github.com/somajitdey/easyform" class="btn btn-primary mt-4">Source</a>
                             <a href="https://buymeacoffee.com/SomajitDey" class="btn btn-primary mt-4">Donate</a>
                             <a href="https://github.com/SomajitDey/EasyForm/discussions/1" class="btn btn-primary mt-4">Contact</a>
-                            <a href="https://github.com/somajitdey/easyform?tab=MIT-1-ov-file#MIT-1-ov-file" class="btn btn-primary mt-4">License</a>
                         </div>
                         <p>Copyright &copy; 2024 Somajit Dey</p>
                     </div>
@@ -142,6 +142,27 @@
                                 <input type="button" id="toggleServer" value="Kill Server" disabled=true; onclick="toggleWorker();">
                                 <button onclick="spaTop();">Top</button>
                             </section>
+                        </div>
+                        <div class="spa-page" id="inbox">
+                        <section>
+                            <h3>Inbox</h3>
+                            <p class="alert alert-success">This is your storageless Inbox. All data is lost once you close this Tab.</p>
+                            <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>From</th>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Message</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inboxTable">
+                                </tbody>
+                            </table>
+                            </div>
+                        </section>
                         </div>
                     </div>
                 </div>
