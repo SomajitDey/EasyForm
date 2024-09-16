@@ -50,6 +50,7 @@ function startWorker() {
     toggleServer.disabled = false;
 
     logThis("Server started");
+    document.getElementById("serverStatus").innerHTML = 'Live  <span class="spinner-grow spinner-grow-sm"></span>';
 }
 
 function stopWorker() {
@@ -58,6 +59,7 @@ function stopWorker() {
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
+    document.getElementById("serverStatus").innerHTML = "Stopped";
 }
 
 function toggleWorker() {
