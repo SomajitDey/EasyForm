@@ -8,11 +8,7 @@ function logThis(report) {
 }
 
 function genUUID() {
-    // Generate random string. crypto.randomUUID() outputs 36 char long UUID. We want length=10 only
-    const bytes = crypto.getRandomValues(new Uint32Array(2));
-    const array2str = new TextDecoder('ascii');
-    const str = btoa(array2str.decode(bytes)).substr(0, 10).replace(/\//g, '-').replace(/\+/g, '_');
-    document.getElementById("uuid").value = str;
+    document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
 }
 
 const chatID = async () => {

@@ -5,14 +5,14 @@ onmessage = (e) => {
 
 async function pollApi(getFrom, postTo, TGchatID) {
     
-    const pollingInterval = 5; // 5 seconds in milliseconds
+    const pollingInterval = 5; // in milliseconds
     
     const makeRequest = async () => {
         try {
             const response = await fetch(getFrom); // Make request
             const data = await response.text();
 
-			const res = await fetch(postTo, {
+            await fetch(postTo, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: '{"chat_id": "'+ TGchatID + '", "text": "'+ data +'"}'
@@ -21,11 +21,11 @@ async function pollApi(getFrom, postTo, TGchatID) {
             console.log(Date() + ": Relay complete.");
             postMessage(data); // Send data to main for logging
             
-            setTimeout(makeRequest, pollingInterval); // Schedule next request
-
         } catch (error) {
             console.error(Date() + ': Error making API request --', error);
+            postMessage('err:' + error); // Send error to main for logging
 
+        } finally {
             setTimeout(makeRequest, pollingInterval); // Schedule next request
         }
     };
