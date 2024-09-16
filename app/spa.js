@@ -13,10 +13,19 @@ let spaCurrentPageID = spaHomePageID;
     }
 }
 
+function spaTop(){
+    document.getElementById(spaCurrentPageID).scrollIntoView();
+}
+
+function spaBottom(){
+    document.getElementById(spaCurrentPageID).scrollIntoView(false);
+}
+
 function spaGoTo(id) {
     document.getElementById(spaCurrentPageID).style.display = 'none';
     document.getElementById(id).style.display = 'block';
     spaCurrentPageID = id;
+    spaTop();
 }
 
 spaGoTo(spaHomePageID); // Can be overridden with <body onload="spaGoTo(id);"> in the html`
