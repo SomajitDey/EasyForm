@@ -28,4 +28,13 @@ function spaGoTo(id) {
     spaTop();
 }
 
+function spaShowHide(id) {
+    let x = document.getElementById(id);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
 spaGoTo(spaHomePageID); // Can be overridden with <body onload="spaGoTo(id);"> in the html`

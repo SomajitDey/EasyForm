@@ -25,7 +25,7 @@ function config() {
     TGchatID = document.getElementById("chatID").value;
     document.getElementById("config").innerHTML = '<p class="alert alert-success">HTML Form Action URL: <u>' + getFrom + '</u></p>';
     document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
-    document.getElementById("testForm").style.display = "block";
+    spaShowHide("testForm");
     document.getElementById("config").scrollIntoView();
 }
 
@@ -38,11 +38,15 @@ function startWorker() {
 
     // Register handler for messages from the background worker
     myWorker.onmessage = (e) => {
-        let isFormData = e.data[1];
-        if (isFormData) {
+        let errLvl = e.data[1];
+        if (! errLvl) {
             logThis('Received: ' + e.data[0]);
+        } else if (errLvl === 1) {
+            stopWorker();
+            logThis('Fatal Error: ' + e.data[0] + ' See console for details.');
+            alert('Server stopped due to some critical error');
         } else {
-            logThis('Error: ' + e.data[0] + 'See console for details.');
+            logThis('Error: ' + e.data[0] + ' See console for details.');
         }
     }
 

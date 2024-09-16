@@ -26,11 +26,13 @@ async function pollApi(getFrom, postTo, TGchatID) {
         try {
             const response = await fetch(getFrom); // Make request
             data = await response.text();
+            // Send URL decoded form data as JSON string to main for logging. Also pass an error level.
+            postMessage([urlEncoded2Json(data), 0]);
             
         } catch (error) {
             console.error(Date() + ': Error making GET request --', error);
-            // Send error to main for logging
-            postMessage(['Failed to fetch form data.', false]);
+            // Send error to main for logging. Error level: 1 for high priority / fatal.
+            postMessage(['Failed to fetch form data.', 1]);
             return;
 
         } finally {
@@ -41,20 +43,24 @@ async function pollApi(getFrom, postTo, TGchatID) {
         let payload = {chat_id: TGchatID, text: urlEncoded2Json(data)}; // conforming to Telegram API schema
 
         try {
-            await fetch(postTo, {
+            const response = await fetch(postTo, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(payload)
             })
+            postStatus = await response.text();
+            
+            if (! JSON.parse(postStatus).ok) {
+                throw "API rejected credentials"
+            }
 
         } catch (error) {        
             console.error(Date() + ': Error making POST request --', error);
-            // Send error to main for logging
-            postMessage(['Failed to post form data to Telegram.', false]);
+            // Send error to main for logging. Error level: 2 for low priority / non-fatal.
+            postMessage(['Failed to post form data to Telegram.', 2]);
             return;
         }
 
-        postMessage([urlEncoded2Json(data),true]); // Send URL decoded form data as JSON string to main for logging
         console.log(Date() + ": Relay complete.");
     };
 
