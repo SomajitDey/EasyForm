@@ -61,10 +61,10 @@
                                 <p>Here is an HTML code snippet you can readily embed as a basic contact form in your website. Just replace FormActionURL with the actual URL.</p>
                                 <pre><code class="language-html">
 &lt;form action=&quot;FormActionURL&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot;&gt;
-    &lt;input type=&quot;hidden&quot; name=&quot;formID&quot; value=&quot;sample&quot;&gt;
-    &lt;input type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Your Email&quot;&gt;
-    &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your Name&quot;&gt;
-    &lt;input type=&quot;text&quot; name=&quot;message&quot; placeholder=&quot;Your Message&quot; autocomplete=&quot;off&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;From&quot; value=&quot;sample&quot;&gt;
+    &lt;input type=&quot;email&quot; name=&quot;Email&quot; placeholder=&quot;Your Email&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;Name&quot; placeholder=&quot;Your Name&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;Message&quot; placeholder=&quot;Your Message&quot; autocomplete=&quot;off&quot;&gt;
     &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
     &lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;
 &lt;/form&gt;
@@ -112,15 +112,15 @@
                                 <div id="testForm" style="display:none">
                                     <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post! Your posted data should also be logged below.</p>
                                     <form method="POST" target="hidden_iframe">
-                                        <input type="hidden" name="formID" value="tester">
+                                        <input type="hidden" name="From" value="tester">
                                         <div class="row mt-2">
                                             <div class="col">
-                                                <input type="email" class="form-control" name="email" placeholder="Your Email" autocomplete="on" required>
+                                                <input type="email" class="form-control" name="Email" placeholder="Your Email" autocomplete="on" required>
                                             </div>
                                             <div class="col">
-                                                <input type="text" class="form-control" name="name" placeholder="Your Name" autocomplete="on" required>
+                                                <input type="text" class="form-control" name="Name" placeholder="Your Name" autocomplete="on" required>
                                             </div>
-                                            <input type="text" class="form-control mt-2" name="message" placeholder="Your Message" required>
+                                            <input type="text" class="form-control mt-2" name="Message" placeholder="Your Message" required>
                                         </div>
                                         <button type="submit" id="testFormBtn" class="btn btn-info mt-2" onclick="alert('Thanks for your message!');">Post</button>
                                         <button type="reset" class="btn btn-warning mt-2">Reset</button>
@@ -144,7 +144,7 @@
                             <div class="table-responsive">
                             <table class="table table-hover table-striped">
                                 <thead class="table-dark">
-                                    <tr>
+                                    <tr id="inboxHeader">
                                         <th>From</th>
                                         <th>Email</th>
                                         <th>Name</th>

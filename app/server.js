@@ -14,30 +14,24 @@ function logThis(report) {
 }
 
 // Handler for updating the display of number of unread messages
-function updateUnreadCount(mode){
-    let numUnreadMsgs;
-    
+function updateUnreadCount(){
     if (spaCurrentPageID === "inbox") {
-        // Opportunity to reset everything
-        numTotalMsgs = 0;
-        numReadMsgs = 0;
-        numUnreadMsgs = 0;
-    } else if (mode === "new") {
-        numUnreadMsgs = ++numTotalMsgs - numReadMsgs;
-    } else {
-        numUnreadMsgs = numTotalMsgs - (++numReadMsgs);
+        numReadMsgs = numTotalMsgs;
     }
-    document.getElementById("unread").innerText = numUnreadMsgs;
+    document.getElementById("unread").innerText = numTotalMsgs - numReadMsgs;
 }
 
 function inbox(json){
     const data = JSON.parse(json); // Read form data into entry object
-    data.time = Date();
-    const keysEnumArray = Object.keys(data);
+    data.Timestamp = Date();
+    const keysEnumArray = Object.keys(data); // Enumerated array of form fields.
 
     // Create table row:
     const row = document.createElement("tr");
 
+    const header = document.getElementById("inboxHeader");
+    if (! numTotalMsgs) { header.replaceChildren();}
+    
     for (let key in keysEnumArray) {
         // Create cell:
         const cell = document.createElement("td");
@@ -50,12 +44,21 @@ function inbox(json){
 
         // Append cell to row:
         row.append(cell);        
-    }
 
+        if (! numTotalMsgs) {
+            // Setup header according to the form fields. This is necessary as users may have custom form fields.
+            // Create header block:
+            const header_block = document.createElement("th");
+            header_block.append(keysEnumArray[key]);
+            header.append(header_block);
+        }
+    }
+    
     // Append row to table body:
     document.getElementById("inboxTable").prepend(row);
     
     // Update number of total messages
+    ++numTotalMsgs;
     updateUnreadCount("new");
 }
 
