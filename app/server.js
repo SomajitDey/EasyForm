@@ -46,7 +46,11 @@ const fetchChatID = async () => {
 }
 
 function config() {
-    getFrom = document.getElementById("relay").value + '/' + document.getElementById("uuid").value;
+    const relayList = ["https://ppng.io", "https://piping.glitch.me", "https://demo.httprelay.io/link"];
+    const uuid = document.getElementById("uuid").value;
+    // Choose a random index in [0, relayList.length]. Use first two nibbles of uuid as random number in range [0,256].
+    const randomIdx = Math.floor(parseInt(uuid.substr(0,2),16)*relayList.length/256);
+    getFrom = relayList[randomIdx] + '/' + uuid;
     postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
     TGchatID = document.getElementById("chatID").value;
     document.getElementById("config").innerHTML = '<p class="alert alert-success">HTML Form Action URL: <u>' + getFrom + '</u></p>';
