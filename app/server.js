@@ -2,6 +2,8 @@
 
 let myWorker = null;
 let getFrom, postTo, TGchatID;
+let numReadMsgs = 0;
+let numTotalMsgs = 0;
 const logs = document.getElementById("logs");
 const toggleServer = document.getElementById("toggleServer");
 
@@ -9,6 +11,23 @@ function logThis(report) {
     const row = document.createElement("p");
     row.append(Date() + ": " + report);
     logs.prepend(row);
+}
+
+// Handler for updating the display of number of unread messages
+function updateUnreadCount(mode){
+    let numUnreadMsgs;
+    
+    if (spaCurrentPageID === "inbox") {
+        // Opportunity to reset everything
+        numTotalMsgs = 0;
+        numReadMsgs = 0;
+        numUnreadMsgs = 0;
+    } else if (mode === "new") {
+        numUnreadMsgs = ++numTotalMsgs - numReadMsgs;
+    } else {
+        numUnreadMsgs = numTotalMsgs - (++numReadMsgs);
+    }
+    document.getElementById("unread").innerText = numUnreadMsgs;
 }
 
 function inbox(json){
@@ -35,6 +54,9 @@ function inbox(json){
 
     // Append row to table body:
     document.getElementById("inboxTable").prepend(row);
+    
+    // Update number of total messages
+    updateUnreadCount("new");
 }
 
 function genUUID() {
@@ -110,7 +132,7 @@ function stopWorker() {
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
-    document.getElementById("serverStatus").innerHTML = "Killed";
+    document.getElementById("serverStatus").innerText = "Killed";
 }
 
 function toggleWorker() {
