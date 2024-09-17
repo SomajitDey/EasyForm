@@ -38,6 +38,9 @@ function inbox(json){
 }
 
 function genUUID() {
+    // v4 UUID looks like xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx in hexadecimal. See Wikipedia.
+    // M stores version & N, the variant. All the x digits above are cryptographically random.
+    // For our uuid we simply choose the first block of hex chars from a v4 UUID.
     document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
 }
 
@@ -45,6 +48,11 @@ const fetchChatID = async () => {
     logThis("Fetching Telegram chat ID")
     const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
+    if (! response.ok) {
+        logThis("Telegram API status code:" + response.status +". Is Bot API Token ok?");
+        alert("Failed to fetch chat ID. Check your Bot API Token!");
+        return;
+    }
     const data = await response.json();
     document.getElementById("chatID").value = data.result[0].message.chat.id;
 }

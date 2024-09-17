@@ -21,10 +21,17 @@ async function pollApi(getFrom, postTo, TGchatID) {
 
     const relay = async () => {
         let data; // This will hold the received URL encoded form data
+        let errLvl = 2; // Default error level when errors are caught. May be overriden before using `throw`.
         
         // Listen to piping-server
         try {
             const response = await fetch(getFrom); // Make request
+
+            if (! response.ok) {
+                errLvl = 1; // Set error to critical/fatal
+                throw "GET @ " + getFrom + " status: " + response.status;
+            }
+
             data = urlEncoded2Json(await response.text());
             // Send URL decoded form data as JSON string to main for logging. Also pass an error level.
             postMessage([data, 0]);
@@ -32,7 +39,7 @@ async function pollApi(getFrom, postTo, TGchatID) {
         } catch (error) {
             console.error(Date() + ': Error making GET request --', error);
             // Send error to main for logging. Error level: 1 for high priority / fatal.
-            postMessage(['Failed to fetch form data.', 1]);
+            postMessage(['Failed to fetch form data.', errLvl]);
             return;
 
         } finally {
@@ -48,16 +55,15 @@ async function pollApi(getFrom, postTo, TGchatID) {
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(payload)
             })
-            postStatus = await response.text();
             
-            if (! JSON.parse(postStatus).ok) {
-                throw "API rejected credentials"
+            if (! response.ok) {
+                throw "POST @ " + postTo + " status: " + response.status +". Is chat ID = " + TGchatID + " ok?";
             }
 
         } catch (error) {        
             console.error(Date() + ': Error making POST request --', error);
             // Send error to main for logging. Error level: 2 for low priority / non-fatal.
-            postMessage(['Failed to post form data to Telegram.', 2]);
+            postMessage(['Failed to post form data to Telegram.', errLvl]);
             return;
         }
 
