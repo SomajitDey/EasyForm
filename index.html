@@ -26,7 +26,7 @@
                         <div class="d-flex flex-column justify-content-center align-items-center mt-2 mb-3 pb-3">
                             <button type="button" class="btn btn-primary mt-5" onclick="spaGoTo('about');">About</button>
                             <button type="button" class="btn btn-primary mt-4" onclick="spaGoTo('server');">Server</button>
-                            <button type="button" class="btn btn-primary mt-4" onclick="spaGoTo('inbox');">Inbox</button>
+                            <button type="button" class="btn btn-primary mt-4" onclick="spaGoTo('inbox'); updateUnreadCount();">Inbox <span id ="unread" class="badge bg-danger">0</span></button>
                             <a href="https://github.com/somajitdey/easyform" class="btn btn-primary mt-4">Source</a>
                             <a href="https://buymeacoffee.com/SomajitDey" class="btn btn-primary mt-4">Donate</a>
                             <a href="https://github.com/SomajitDey/EasyForm/discussions/1" class="btn btn-primary mt-4">Contact</a>

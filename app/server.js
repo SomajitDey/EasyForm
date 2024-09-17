@@ -1,10 +1,33 @@
+// Main entry point for the server. Deploys background worker in "bg-worker.js" for handling networking.
+
 let myWorker = null;
 let getFrom, postTo, TGchatID;
+let numReadMsgs = 0;
+let numTotalMsgs = 0;
 const logs = document.getElementById("logs");
 const toggleServer = document.getElementById("toggleServer");
 
 function logThis(report) {
-    logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
+    const row = document.createElement("p");
+    row.append(Date() + ": " + report);
+    logs.prepend(row);
+}
+
+// Handler for updating the display of number of unread messages
+function updateUnreadCount(mode){
+    let numUnreadMsgs;
+    
+    if (spaCurrentPageID === "inbox") {
+        // Opportunity to reset everything
+        numTotalMsgs = 0;
+        numReadMsgs = 0;
+        numUnreadMsgs = 0;
+    } else if (mode === "new") {
+        numUnreadMsgs = ++numTotalMsgs - numReadMsgs;
+    } else {
+        numUnreadMsgs = numTotalMsgs - (++numReadMsgs);
+    }
+    document.getElementById("unread").innerText = numUnreadMsgs;
 }
 
 function inbox(json){
@@ -20,20 +43,26 @@ function inbox(json){
         const cell = document.createElement("td");
 
         // Create a text entry:
-        const entry = document.createTextNode(eval("data." + keysEnumArray[key]));
+        entry = eval("data." + keysEnumArray[key]);
 
         // Append entry to cell:
-        cell.appendChild(entry);
+        cell.append(entry);
 
         // Append cell to row:
-        row.appendChild(cell);        
+        row.append(cell);        
     }
 
     // Append row to table body:
-    document.getElementById("inboxTable").appendChild(row);
+    document.getElementById("inboxTable").prepend(row);
+    
+    // Update number of total messages
+    updateUnreadCount("new");
 }
 
 function genUUID() {
+    // v4 UUID looks like xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx in hexadecimal. See Wikipedia.
+    // M stores version & N, the variant. All the x digits above are cryptographically random.
+    // For our uuid we simply choose the first block of hex chars from a v4 UUID.
     document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
 }
 
@@ -41,6 +70,11 @@ const fetchChatID = async () => {
     logThis("Fetching Telegram chat ID")
     const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
+    if (! response.ok) {
+        logThis("Telegram API status code:" + response.status +". Is Bot API Token ok?");
+        alert("Failed to fetch chat ID. Check your Bot API Token!");
+        return;
+    }
     const data = await response.json();
     document.getElementById("chatID").value = data.result[0].message.chat.id;
 }
@@ -72,13 +106,13 @@ function startWorker() {
         const msg = e.data[0];
         if (! errLvl) {
             inbox(msg);
-            logThis('Received: ' + msg);
+            logThis('RECEIVED: ' + msg);
         } else if (errLvl === 1) {
             stopWorker();
-            logThis('Fatal Error: ' + msg + ' See console for details.');
+            logThis('FATAL ERROR: ' + msg + ' See console for details.');
             alert('Server stopped due to some critical error');
         } else {
-            logThis('Error: ' + msg + ' See console for details.');
+            logThis('ERROR: ' + msg + ' See console for details.');
         }
     }
 
@@ -98,7 +132,7 @@ function stopWorker() {
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
-    document.getElementById("serverStatus").innerHTML = "Killed";
+    document.getElementById("serverStatus").innerText = "Killed";
 }
 
 function toggleWorker() {
