@@ -1,10 +1,14 @@
+// Main entry point for the server. Deploys background worker in "bg-worker.js" for handling networking.
+
 let myWorker = null;
 let getFrom, postTo, TGchatID;
 const logs = document.getElementById("logs");
 const toggleServer = document.getElementById("toggleServer");
 
 function logThis(report) {
-    logs.innerHTML += Date() + ":<br>=========<br>" + report + "<br>=========<br><br>";
+    const row = document.createElement("p");
+    row.append(Date() + ": " + report);
+    logs.prepend(row);
 }
 
 function inbox(json){
@@ -20,17 +24,17 @@ function inbox(json){
         const cell = document.createElement("td");
 
         // Create a text entry:
-        const entry = document.createTextNode(eval("data." + keysEnumArray[key]));
+        entry = eval("data." + keysEnumArray[key]);
 
         // Append entry to cell:
-        cell.appendChild(entry);
+        cell.append(entry);
 
         // Append cell to row:
-        row.appendChild(cell);        
+        row.append(cell);        
     }
 
     // Append row to table body:
-    document.getElementById("inboxTable").appendChild(row);
+    document.getElementById("inboxTable").prepend(row);
 }
 
 function genUUID() {
@@ -72,13 +76,13 @@ function startWorker() {
         const msg = e.data[0];
         if (! errLvl) {
             inbox(msg);
-            logThis('Received: ' + msg);
+            logThis('RECEIVED: ' + msg);
         } else if (errLvl === 1) {
             stopWorker();
-            logThis('Fatal Error: ' + msg + ' See console for details.');
+            logThis('FATAL ERROR: ' + msg + ' See console for details.');
             alert('Server stopped due to some critical error');
         } else {
-            logThis('Error: ' + msg + ' See console for details.');
+            logThis('ERROR: ' + msg + ' See console for details.');
         }
     }
 

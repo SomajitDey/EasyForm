@@ -1,6 +1,6 @@
 // Utilities for turning any html into a Single Page Application (SPA).
 // Public API identifiers (i.e. names of exposed vars, consts and funcs) are prefixed with 'spa'.
-// Blocks scopes are to hide the private elements.
+// Block scopes are to hide the private elements.
 
 const spaHomePageID = document.querySelector(".spa-page").id; // Assuming first spa-page class is the home / hero page
 let spaCurrentPageID = spaHomePageID;

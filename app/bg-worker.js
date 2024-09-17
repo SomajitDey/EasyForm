@@ -1,7 +1,7 @@
 // Code for background worker.
 // Its purpose is to listen to piping-server for form data and post to Telegram when received, i.e. relaying.
 // Polling piping-server API is achieved using setTimeout for efficiency. One relay seeds the next before returning.
-// 'main' in the following refers to server.js.
+// 'main' in the following refers to "server.js".
 
 function urlEncoded2Json(str){
     const arr = str.split('&');
