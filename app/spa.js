@@ -5,12 +5,28 @@
 const spaHomePageID = document.querySelector(".spa-page").id; // Assuming first spa-page class is the home / hero page
 let spaCurrentPageID = spaHomePageID;
 
-{
-    const pages = document.getElementsByClassName("spa-page");
+function spaShow(id) {
+    document.getElementById(id).style.display = 'block';
+}
 
-    for (let el of pages) {
-        el.style.display = 'none';
+function spaHide(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+function spaToggle(id) {
+    let x = document.getElementById(id);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
     }
+}
+
+function spaGoTo(id) {
+    document.getElementById(spaCurrentPageID).style.display = 'none';
+    spaShow(id);
+    spaCurrentPageID = id;
+    spaTop();
 }
 
 function spaTop(){
@@ -21,19 +37,11 @@ function spaBottom(){
     document.getElementById(spaCurrentPageID).scrollIntoView(false);
 }
 
-function spaGoTo(id) {
-    document.getElementById(spaCurrentPageID).style.display = 'none';
-    document.getElementById(id).style.display = 'block';
-    spaCurrentPageID = id;
-    spaTop();
-}
+{
+    const pages = document.getElementsByClassName("spa-page");
 
-function spaShowHide(id) {
-    let x = document.getElementById(id);
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
+    for (let el of pages) {
+        el.style.display = 'none';
     }
 }
 

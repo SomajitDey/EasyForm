@@ -1,7 +1,8 @@
 // Main entry point for the server. Deploys background worker in "bg-worker.js" for handling networking.
 
+spaHide("jsAlert");
+
 let myWorker = null;
-let getFrom, postTo, TGchatID;
 let numReadMsgs = 0;
 let numTotalMsgs = 0;
 const logs = document.getElementById("logs");
@@ -9,7 +10,7 @@ const toggleServer = document.getElementById("toggleServer");
 
 function logThis(report) {
     const row = document.createElement("p");
-    row.append(Date() + ": " + report);
+    row.append(`${Date()}: ${report}`);
     logs.prepend(row);
 }
 
@@ -37,7 +38,7 @@ function inbox(json){
         const cell = document.createElement("td");
 
         // Create a text entry:
-        entry = eval("data." + keysEnumArray[key]);
+        entry = eval(`data.${keysEnumArray[key]}`);
 
         // Append entry to cell:
         cell.append(entry);
@@ -70,16 +71,22 @@ function genUUID() {
 }
 
 const fetchChatID = async () => {
-    logThis("Fetching Telegram chat ID")
-    const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
+    logThis("Fetching Telegram chat ID");
+    const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
     if (! response.ok) {
-        logThis("Telegram API status code:" + response.status +". Is Bot API Token ok?");
+        logThis(`Telegram API status code: ${response.status}. Is Bot API Token ok?`);
         alert("Failed to fetch chat ID. Check your Bot API Token!");
         return;
     }
     const data = await response.json();
-    document.getElementById("chatID").value = data.result[0].message.chat.id;
+    try {
+        const TGchatID = data.result[0].message.chat.id;
+        document.getElementById("chatID").value = TGchatID;
+        localStorage.setItem("TGchatID", TGchatID);
+    } catch (e) {
+        alert("Failed to fetch chat ID. Send any text to the Telegram Bot then try again.");
+    }
 }
 
 function config() {
@@ -87,20 +94,22 @@ function config() {
     const uuid = document.getElementById("uuid").value;
     // Choose a random index in [0, relayList.length]. Use first two nibbles of uuid as random number in range [0,256].
     const randomIdx = Math.floor(parseInt(uuid.substr(0,2),16)*relayList.length/256);
-    getFrom = relayList[randomIdx] + '/' + uuid;
-    postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
-    TGchatID = document.getElementById("chatID").value;
-    document.getElementById("config").innerHTML = '<p class="alert alert-success">HTML Form Action URL: <u>' + getFrom + '</u></p>';
-    document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
-    spaShowHide("testForm");
-    document.getElementById("config").scrollIntoView();
+    const getFrom = relayList[randomIdx] + '/' + uuid;
+    localStorage.setItem("getFrom", getFrom);
+    const postTo = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/sendMessage';
+    localStorage.setItem("postTo", postTo);
+    spaGoTo("server");
+    localStorage.setItem("loggedIn", "true");
 }
 
 function startWorker() {
-    if (getFrom === undefined) {
-        config();
+    if (myWorker || sessionStorage.getItem("server")) {
+        alert('Another server is already running. Only one server can run at a time.');
+        return;
+    } else {
+        sessionStorage.setItem("server", "live");
     }
-
+    
     myWorker = new Worker("app/bg-worker.js");
 
     // Register handler for messages from the background worker
@@ -109,29 +118,40 @@ function startWorker() {
         const msg = e.data[0];
         if (! errLvl) {
             inbox(msg);
-            logThis('RECEIVED: ' + msg);
+            logThis(`RECEIVED: ${msg}`);
         } else if (errLvl === 1) {
             stopWorker();
-            logThis('FATAL ERROR: ' + msg + ' See console for details.');
+            logThis(`FATAL ERROR: ${msg}. See console for details.`);
             alert('Server stopped due to some critical error');
         } else {
-            logThis('ERROR: ' + msg + ' See console for details.');
+            logThis(`ERROR: ${msg}. See console for details.`);
         }
     }
 
+    const getFrom = localStorage.getItem("getFrom");
+
     // Communicate key data to the background worker
-    myWorker.postMessage([getFrom, postTo, TGchatID]);
+    myWorker.postMessage([getFrom, localStorage.getItem("postTo"), localStorage.getItem("TGchatID")]);
 
     toggleServer.value = "Kill Server";
     toggleServer.disabled = false;
 
     logThis("Server started");
     document.getElementById("serverStatus").innerHTML = 'Live  <span class="spinner-grow spinner-grow-sm"></span>';
+    
+    document.getElementById("formActionURL").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
+    document.getElementById("readyForm").href = `./${btoa(getFrom).replace(/\+/g,'_').replace(/\//g,'-')}`;
+    document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
+    spaShow("testForm");
 }
 
 function stopWorker() {
+    if (! myWorker) {
+        return;
+    }
     myWorker.terminate();
     myWorker = null;
+    sessionStorage.removeItem("server");
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
@@ -145,3 +165,22 @@ function toggleWorker() {
         startWorker();
     }
 }
+
+function signout() {
+    stopWorker();
+    localStorage.clear();
+    location.reload();
+}
+
+function main() {
+    // Enable config if no prior settings found in localStorage
+    if (localStorage.getItem("loggedIn")) {
+        startWorker();
+        spaGoTo("server");
+    } else {
+        spaGoTo("setup");
+    }
+
+}
+
+spaHide("jsAlert");
