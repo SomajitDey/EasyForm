@@ -11,6 +11,12 @@ let spaCurrentPageID = spaHomePageID;
     for (let el of pages) {
         el.style.display = 'none';
     }
+
+    const jsAlerts = document.getElementsByClassName("spa-js");
+
+    for (let el of jsAlerts) {
+        el.style.display = 'none';
+    }
 }
 
 function spaTop(){
