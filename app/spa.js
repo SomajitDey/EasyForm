@@ -6,15 +6,15 @@ const spaHomePageID = document.querySelector(".spa-page").id; // Assuming first 
 let spaCurrentPageID = spaHomePageID;
 
 {
-    const pages = document.getElementsByClassName("spa-page");
-
-    for (let el of pages) {
-        el.style.display = 'none';
-    }
-
     const jsAlerts = document.getElementsByClassName("spa-js");
 
     for (let el of jsAlerts) {
+        el.style.display = 'none';
+    }
+
+    const pages = document.getElementsByClassName("spa-page");
+
+    for (let el of pages) {
         el.style.display = 'none';
     }
 }

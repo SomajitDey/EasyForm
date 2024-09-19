@@ -9,7 +9,7 @@ const toggleServer = document.getElementById("toggleServer");
 
 function logThis(report) {
     const row = document.createElement("p");
-    row.append(Date() + ": " + report);
+    row.append(`${Date()}: ${report}`);
     logs.prepend(row);
 }
 
@@ -37,7 +37,7 @@ function inbox(json){
         const cell = document.createElement("td");
 
         // Create a text entry:
-        entry = eval("data." + keysEnumArray[key]);
+        entry = eval(`data.${keysEnumArray[key]}`);
 
         // Append entry to cell:
         cell.append(entry);
@@ -74,12 +74,16 @@ const fetchChatID = async () => {
     const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
     if (! response.ok) {
-        logThis("Telegram API status code:" + response.status +". Is Bot API Token ok?");
+        logThis(`Telegram API status code: ${response.status}. Is Bot API Token ok?`);
         alert("Failed to fetch chat ID. Check your Bot API Token!");
         return;
     }
     const data = await response.json();
-    document.getElementById("chatID").value = data.result[0].message.chat.id;
+    try {
+        TGchatID = data.result[0].message.chat.id;
+    } catch (e) {
+        alert("Failed to fetch chat ID. Send any text to the Telegram Bot then try again.");
+    }
 }
 
 function config() {
@@ -89,8 +93,7 @@ function config() {
     const randomIdx = Math.floor(parseInt(uuid.substr(0,2),16)*relayList.length/256);
     getFrom = relayList[randomIdx] + '/' + uuid;
     postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
-    TGchatID = document.getElementById("chatID").value;
-    document.getElementById("config").innerHTML = '<p class="alert alert-success">HTML Form Action URL: <u>' + getFrom + '</u></p>';
+    document.getElementById("config").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
     document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
     spaShowHide("testForm");
     document.getElementById("config").scrollIntoView();
@@ -109,13 +112,13 @@ function startWorker() {
         const msg = e.data[0];
         if (! errLvl) {
             inbox(msg);
-            logThis('RECEIVED: ' + msg);
+            logThis(`RECEIVED: ${msg}`);
         } else if (errLvl === 1) {
             stopWorker();
-            logThis('FATAL ERROR: ' + msg + ' See console for details.');
+            logThis(`FATAL ERROR: ${msg}. See console for details.`);
             alert('Server stopped due to some critical error');
         } else {
-            logThis('ERROR: ' + msg + ' See console for details.');
+            logThis(`ERROR: ${msg}. See console for details.`);
         }
     }
 

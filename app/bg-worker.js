@@ -11,7 +11,7 @@ function urlEncoded2Json(str){
     for (let el of arr) {
         let elArray = el.split('=');
         let val = decodeURIComponent(elArray[1].replace( /\+/g, ' ' )).replace(/"/g,'\\"'); // Decoded and escaped
-        eval('obj.' + elArray[0] +'="' + val +'"');
+        eval(`obj.${elArray[0]}="${val}"`);
     }
     
     return JSON.stringify(obj);
@@ -29,7 +29,7 @@ async function pollApi(getFrom, postTo, TGchatID) {
 
             if (! response.ok) {
                 errLvl = 1; // Set error to critical/fatal
-                throw "GET @ " + getFrom + " status: " + response.status;
+                throw `GET @ ${getFrom} status: ${response.status}`;
             }
 
             data = urlEncoded2Json(await response.text());
@@ -37,7 +37,7 @@ async function pollApi(getFrom, postTo, TGchatID) {
             postMessage([data, 0]);
             
         } catch (error) {
-            console.error(Date() + ': Error making GET request --', error);
+            console.error(`${Date()}: Error making GET request -- ${error}`);
             // Send error to main for logging. Error level: 1 for high priority / fatal.
             postMessage(['Failed to fetch form data.', errLvl]);
             return;
@@ -57,17 +57,17 @@ async function pollApi(getFrom, postTo, TGchatID) {
             })
             
             if (! response.ok) {
-                throw "POST @ " + postTo + " status: " + response.status +". Is chat ID = " + TGchatID + " ok?";
+                throw `POST @ ${postTo} status: ${response.status}. Is chat ID = ${TGchatID} ok?`;
             }
 
         } catch (error) {        
-            console.error(Date() + ': Error making POST request --', error);
+            console.error(`${Date()}: Error making POST request -- ${error}`);
             // Send error to main for logging. Error level: 2 for low priority / non-fatal.
             postMessage(['Failed to post form data to Telegram.', errLvl]);
             return;
         }
 
-        console.log(Date() + ": Relay complete.");
+        console.log(`${Date()}: Relay complete.`);
     };
 
     relay(); // Start the first relay
