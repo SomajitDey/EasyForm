@@ -140,6 +140,7 @@ function startWorker() {
     document.getElementById("serverStatus").innerHTML = 'Live  <span class="spinner-grow spinner-grow-sm"></span>';
     
     document.getElementById("formActionURL").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
+    document.getElementById("readyForm").href = `./${btoa(getFrom).replace(/\+/g,'_').replace(/\//g,'-')}`;
     document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
     spaShow("testForm");
 }

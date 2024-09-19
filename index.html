@@ -45,8 +45,7 @@
                             <section>
                                 <h3>About</h3>
                                 <p>EasyForm gives you a free and easy, self-hosted form backend solution that runs in your browser! Just sign up and then embed the following HTML
-                                   form in your website. Therefrom, as long as this Tab is open in your browser, whenever your users submit the form in your website, your Inbox here
-                                   will be populated. You will also be notified via Telegram.
+                                   form in your website. You also get your own contact form URL that you can use if you don't have a website.
                                 </p>
                                 <pre><code class="language-html">
 &lt;!-- Replace XXXXX with the form action URL given by this app upon sign up` --&gt;
@@ -61,6 +60,9 @@
 &lt;!-- when the form is submitted, the server response will appear in this iframe, hidden from view --&gt;
 &lt;iframe name=&quot;hidden_iframe&quot; src=&quot;about:blank&quot; hidden&gt;&lt;/iframe&gt;
 </code></pre>
+                                <p>As long as this Tab is open in your browser, whenever your users submit the form, your Inbox here will be populated.
+                                    You will also be notified via Telegram.
+                                </p>
 
                                 <p><button class="btn btn-primary mt-4" onclick="main();">Let's get started</button></p>
 
@@ -105,6 +107,7 @@
                                     <p>Test if everything is working properly with the following sample form (embed in your own website with 
                                     <button onclick="spaGoTo('about');">this code</button>). You should get a Telegram message upon clicking Post! Your posted data 
                                     should also be logged below.</p>
+                                    <p>You also get <a id="readyForm" target="_blank">your own contact form URL</a>.</p>
                                     <form method="POST" target="hidden_iframe">
                                         <input type="hidden" name="From" value="tester">
                                         <div class="row mt-2">
