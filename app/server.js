@@ -1,7 +1,8 @@
 // Main entry point for the server. Deploys background worker in "bg-worker.js" for handling networking.
 
+spaHide("jsAlert");
+
 let myWorker = null;
-let getFrom, postTo, TGchatID;
 let numReadMsgs = 0;
 let numTotalMsgs = 0;
 const logs = document.getElementById("logs");
@@ -70,8 +71,8 @@ function genUUID() {
 }
 
 const fetchChatID = async () => {
-    logThis("Fetching Telegram chat ID")
-    const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/getUpdates';
+    logThis("Fetching Telegram chat ID");
+    const apiEndpoint = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/getUpdates';
     const response = await fetch(apiEndpoint); // Make request
     if (! response.ok) {
         logThis(`Telegram API status code: ${response.status}. Is Bot API Token ok?`);
@@ -80,7 +81,9 @@ const fetchChatID = async () => {
     }
     const data = await response.json();
     try {
-        TGchatID = data.result[0].message.chat.id;
+        const TGchatID = data.result[0].message.chat.id;
+        document.getElementById("chatID").value = TGchatID;
+        localStorage.setItem("TGchatID", TGchatID);
     } catch (e) {
         alert("Failed to fetch chat ID. Send any text to the Telegram Bot then try again.");
     }
@@ -91,19 +94,18 @@ function config() {
     const uuid = document.getElementById("uuid").value;
     // Choose a random index in [0, relayList.length]. Use first two nibbles of uuid as random number in range [0,256].
     const randomIdx = Math.floor(parseInt(uuid.substr(0,2),16)*relayList.length/256);
-    getFrom = relayList[randomIdx] + '/' + uuid;
-    postTo = 'https://api.telegram.org/bot' + document.getElementById("apiKey").value + '/sendMessage';
-    document.getElementById("config").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
-    document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
-    spaShowHide("testForm");
-    document.getElementById("config").scrollIntoView();
+    const getFrom = relayList[randomIdx] + '/' + uuid;
+    localStorage.setItem("getFrom", getFrom);
+    const postTo = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/sendMessage';
+    localStorage.setItem("postTo", postTo);
+    spaGoTo("server");
+    localStorage.setItem("loggedIn", "true");
 }
 
 function startWorker() {
-    if (getFrom === undefined) {
-        config();
+    if (myWorker) {
+        return;
     }
-
     myWorker = new Worker("app/bg-worker.js");
 
     // Register handler for messages from the background worker
@@ -122,17 +124,26 @@ function startWorker() {
         }
     }
 
+    const getFrom = localStorage.getItem("getFrom");
+
     // Communicate key data to the background worker
-    myWorker.postMessage([getFrom, postTo, TGchatID]);
+    myWorker.postMessage([getFrom, localStorage.getItem("postTo"), localStorage.getItem("TGchatID")]);
 
     toggleServer.value = "Kill Server";
     toggleServer.disabled = false;
 
     logThis("Server started");
     document.getElementById("serverStatus").innerHTML = 'Live  <span class="spinner-grow spinner-grow-sm"></span>';
+    
+    document.getElementById("formActionURL").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
+    document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
+    spaShow("testForm");
 }
 
 function stopWorker() {
+    if (! myWorker) {
+        return;
+    }
     myWorker.terminate();
     myWorker = null;
     console.log("Worker terminated");
@@ -148,3 +159,22 @@ function toggleWorker() {
         startWorker();
     }
 }
+
+function signout() {
+    stopWorker();
+    localStorage.clear();
+    location.reload();
+}
+
+function main() {
+    // Enable config if no prior settings found in localStorage
+    if (localStorage.getItem("loggedIn")) {
+        startWorker();
+        spaGoTo("server");
+    } else {
+        spaGoTo("setup");
+    }
+
+}
+
+spaHide("jsAlert");
