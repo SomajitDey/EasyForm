@@ -50,11 +50,11 @@
                                 </p>
                                 <pre><code class="language-html">
 &lt;!-- Replace XXXXX with the form action URL given by this app upon sign up` --&gt;
-&lt;form action=&quot;XXXXX&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot; autocomplete=&quot;on&quot;&gt;
+&lt;form action=&quot;XXXXX&quot; method=&quot;POST&quot; target=&quot;hidden_iframe&quot;&gt;
     &lt;input type=&quot;hidden&quot; name=&quot;From&quot; value=&quot;sample&quot;&gt;
     &lt;input type=&quot;email&quot; name=&quot;Email&quot; placeholder=&quot;Your Email&quot;&gt;
     &lt;input type=&quot;text&quot; name=&quot;Name&quot; placeholder=&quot;Your Name&quot;&gt;
-    &lt;input type=&quot;text&quot; name=&quot;Message&quot; placeholder=&quot;Your Message&quot; autocomplete=&quot;off&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;Message&quot; placeholder=&quot;Your Message&quot;&gt;
     &lt;button type=&quot;submit&quot;&gt;Submit&lt;button&gt;
     &lt;input type=&quot;reset&quot;&gt;Reset&lt;button&gt;
 &lt;/form&gt;
@@ -102,7 +102,9 @@
                                 <h3>Server</h3>
                                 <div id="formActionURL"></div>
                                 <div id="testForm">
-                                    <p>Test if everything is working properly with the following sample form. You should get a Telegram message upon clicking Post! Your posted data should also be logged below.</p>
+                                    <p>Test if everything is working properly with the following sample form (embed in your own website with 
+                                    <button onclick="spaGoTo('about');">this code</button>). You should get a Telegram message upon clicking Post! Your posted data 
+                                    should also be logged below.</p>
                                     <form method="POST" target="hidden_iframe">
                                         <input type="hidden" name="From" value="tester">
                                         <div class="row mt-2">

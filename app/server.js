@@ -103,9 +103,13 @@ function config() {
 }
 
 function startWorker() {
-    if (myWorker) {
+    if (myWorker || sessionStorage.getItem("server")) {
+        alert('Another server is already running. Only one server can run at a time.');
         return;
+    } else {
+        sessionStorage.setItem("server", "live");
     }
+    
     myWorker = new Worker("app/bg-worker.js");
 
     // Register handler for messages from the background worker
@@ -146,6 +150,7 @@ function stopWorker() {
     }
     myWorker.terminate();
     myWorker = null;
+    sessionStorage.removeItem("server");
     console.log("Worker terminated");
     toggleServer.value = "Launch Server"
     logThis("Server stopped");
