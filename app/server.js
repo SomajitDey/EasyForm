@@ -102,8 +102,7 @@ function config() {
 }
 
 function startWorker() {
-    if (myWorker || sessionStorage.getItem("server")) {
-        alert('Another server is already running. Only one server can run at a time.');
+    if (myWorker) {
         return;
     } else {
         sessionStorage.setItem("server", "live");
@@ -152,7 +151,7 @@ function stopWorker() {
     myWorker = null;
     sessionStorage.removeItem("server");
     console.log("Worker terminated");
-    toggleServer.value = "Launch Server"
+    toggleServer.value = "Launch Server";
     logThis("Server stopped");
     document.getElementById("serverStatus").innerText = "Killed";
 }

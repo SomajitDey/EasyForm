@@ -23,10 +23,15 @@ function spaToggle(id) {
 }
 
 function spaGoTo(id) {
-    document.getElementById(spaCurrentPageID).style.display = 'none';
+    spaHide(spaCurrentPageID);
     spaShow(id);
     spaCurrentPageID = id;
-    spaTop();
+    sessionStorage.setItem("spaCurrentPageID", id);
+}
+
+function spaRestore(){
+    const leftAt = sessionStorage.getItem("spaCurrentPageID"); // Start where left off (useful upon page reload)
+    if (leftAt) { spaGoTo(leftAt);} // Do nothing on fresh load
 }
 
 function spaTop(){
@@ -45,4 +50,4 @@ function spaBottom(){
     }
 }
 
-spaGoTo(spaHomePageID); // Can be overridden with <body onload="spaGoTo(id);"> in the html`
+spaShow(spaHomePageID); // Can be overridden with <body onload="spaRestore();"> in the html to persist page-view upon reload
