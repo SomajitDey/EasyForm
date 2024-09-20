@@ -1,7 +1,5 @@
 // Main entry point for the server. Deploys background worker in "bg-worker.js" for handling networking.
 
-spaHide("jsAlert");
-
 let myWorker = null;
 let numReadMsgs = 0;
 let numTotalMsgs = 0;
@@ -98,6 +96,7 @@ function config() {
     localStorage.setItem("getFrom", getFrom);
     const postTo = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/sendMessage';
     localStorage.setItem("postTo", postTo);
+    spaHide("login");
     spaGoTo("server");
     localStorage.setItem("loggedIn", "true");
 }
@@ -175,6 +174,7 @@ function signout() {
 function main() {
     // Enable config if no prior settings found in localStorage
     if (localStorage.getItem("loggedIn")) {
+        spaHide("login");
         startWorker();
         spaGoTo("server");
     } else {
@@ -182,5 +182,3 @@ function main() {
     }
 
 }
-
-spaHide("jsAlert");
