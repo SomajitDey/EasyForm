@@ -33,7 +33,7 @@
                                     <iframe name="hidden_iframe" src="about:blank" hidden></iframe>
 
     <script>
-        document.getElementById("submit").setAttribute("formaction", atob(location.pathname.substr(10,).replace(/_/g,'+').replace(/-/g,'/')));
+        document.getElementById("submit").setAttribute("formaction", atob(location.pathname.split('/').pop().replace(/_/g,'+').replace(/-/g,'/')));
     </script>
     </body>
 </html>

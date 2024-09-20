@@ -11,7 +11,7 @@ function urlEncoded2Json(str){
     for (let el of arr) {
         let elArray = el.split('=');
         let val = decodeURIComponent(elArray[1].replace( /\+/g, ' ' )).replace(/"/g,'\\"'); // Decoded and escaped
-        eval(`obj.${elArray[0]}="${val}"`);
+        obj[elArray[0]]=val;
     }
     
     return JSON.stringify(obj);
