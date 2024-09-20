@@ -34,10 +34,6 @@
                 </div>
                 <div class="col-sm-10 bg-light pt-5 pb-4">
                     <div class="text-bg-light">
-                        <div class="badge bg-warning position-fixed bottom-0 end-0">
-                            Server: <span id="serverStatus">None yet</span>
-                        </div>
-
 
                         <p class="alert alert-danger" id="jsAlert">You don't have JavaScript enabled! This page cannot function without it.</p>
 
@@ -77,23 +73,26 @@
                                 </ul>
                             </section>
                         </div>
-                        <p class="d-flex justify-content-start"><button class="btn btn-danger mt-4" onclick="main();" id="login">Let's get started</button></p>
+                        <p class="d-flex justify-content-start"><button type="button" class="btn btn-danger mt-4" onclick="main();" id="login">Let's get started</button></p>
 
                         <div class="spa-page" id="setup">
                             <section>
                                 <h3>Setup</h3>
                                 <form id="config" onsubmit="config(); startWorker(); return false;" target="hidden_iframe">
                                     <p>Setup in just 3 easy steps.</p>
-                                    <label for="TGbotKey" class="form-label">1. Enter your Telegram Bot API Token (available from <a href="https://t.me/botfather">@BotFather</a>):</label>
+
+                                    <p>1. Generate or enter your EasyForm Access Key:</p>
+                                    <button type="button" onclick="genUUID(); alert('Store this key safely for all future logins. It cannot be recovered if lost.');">Generate New Key</button>
+                                    <input type="text" id="uuid" placeholder="Enter Your Key" required>
+                                    <br><br>
+
+                                    <label for="TGbotKey" class="form-label">2. Enter your Telegram Bot API Token (available from <a href="https://t.me/botfather">@BotFather</a>):</label>
                                     <input type="text" id="TGbotKey" class="form-control" autocomplete="on" required>
                                     <br>
-                                    <p>2. Send any text to the Bot. Then, click Fetch Chat ID. Do not enter your chat ID by hand.</p>
-                                    <button onclick="fetchChatID();">Fetch Chat ID</button>
+
+                                    <p>3. Send any text to the Bot. Then, click Fetch Chat ID.</p>
+                                    <button type="button" onclick="fetchChatID();">Fetch Chat ID</button>
                                     <input type="text" id="chatID" placeholder="Chat ID" disabled required>
-                                    <br><br>
-                                    <p>3. Generate or enter your EasyForm API Key:</p>
-                                    <button onclick="genUUID();">Generate API Key</button>
-                                    <input type="text" id="uuid" size="8" placeholder="Enter API Key" required>
                                     <br><br>
                                     <button type="submit" class="btn btn-success">Sign in</button>
                                 </form>
@@ -105,7 +104,7 @@
                                 <div id="formActionURL"></div>
                                 <div id="testForm">
                                     <p>Test if everything is working properly with the following sample form (embed in your own website with 
-                                    <button onclick="spaGoTo('about');">this code</button>). You should get a Telegram message upon clicking Post! Your posted data 
+                                    <button type="button" onclick="spaGoTo('about');">this code</button>). You should get a Telegram message upon clicking Post! Your posted data 
                                     should also be logged below.</p>
                                     <p>You also get <a id="readyForm" target="_blank">your own contact form URL</a>.</p>
                                     <form method="POST" target="hidden_iframe">
@@ -127,20 +126,19 @@
                                 <br><br>
                                 <h3>Log</h3>
                                 <input type="button" id="toggleServer" value="Kill Server" disabled=true; onclick="toggleWorker();">
-                                <button onclick="signout();">Sign out</button>
-                                <button onclick="spaBottom();">Bottom</button>
+                                <button type="button" onclick="signout();">Sign out</button>
+                                <button type="button" onclick="spaBottom();">Bottom</button>
                                 <br><br>
-                                <div id="logs" class="text-bg-info">
-                                    <p>Server logs will be shown here</p>
-                                </div>
+                                <p class="alert alert-success">Only high level logs are shown here. For the more technical low level logs, check console. Reload this Tab to clear the logs.</p>
+                                <div id="logs" class="text-bg-info"></div>
                                 <br><br>
-                                <button onclick="spaTop();">Top</button>
+                                <button type="button" onclick="spaTop();">Top</button>
                             </section>
                         </div>
                         <div class="spa-page" id="inbox">
                         <section>
                             <h3>Inbox</h3>
-                            <p class="alert alert-success">This is your storageless Inbox. All data is lost once you close this Tab.</p>
+                            <p class="alert alert-success">This is your storageless Inbox. All data is lost once you close or even reload this Tab.</p>
                             <div class="table-responsive">
                             <table class="table table-hover table-striped">
                                 <thead class="table-dark">
@@ -157,6 +155,10 @@
                             </table>
                             </div>
                         </section>
+                        </div>
+
+                        <div class="badge bg-warning position-fixed bottom-0 end-0">
+                            Server: <span id="serverStatus">None yet</span>
                         </div>
                     </div>
                 </div>
