@@ -22,6 +22,15 @@ function updateUnreadCount(){
 
 function inbox(json){
     const data = JSON.parse(json); // Read form data into entry object
+    
+    if (data.From === "EasyFormViewCounter") {
+        let viewCount = localStorage.getItem("EasyFormViewCounter");
+        ++viewCount;
+        document.getElementById("EasyFormViewCounter").innerText = `which has ${viewCount} views`;
+        localStorage.setItem("EasyFormViewCounter", viewCount);
+        return;
+    }
+    
     data.Timestamp = Date();
     const keysEnumArray = Object.keys(data); // Enumerated array of form fields.
 

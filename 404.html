@@ -33,7 +33,21 @@
                                     <iframe name="hidden_iframe" src="about:blank" hidden></iframe>
 
     <script>
-        document.getElementById("submit").setAttribute("formaction", atob(location.pathname.split('/').pop().replace(/_/g,'+').replace(/-/g,'/')));
-    </script>
+        let postTo = sessionStorage.getItem("postTo");
+        
+        if (! postTo) { // No sessionStorage from earlier. This rules out reload.
+            postTo = atob(location.pathname.split('/').pop().replace(/_/g,'+').replace(/-/g,'/'));
+            sessionStorage.setItem("postTo", postTo);
+            
+            // Post towards reporting new view of this page. Ignores page reloads by detecting presence of prior sessionStorage.
+            fetch(postTo, {
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+                body: "From=EasyFormViewCounter"
+            })
+        }
+        
+        document.getElementById("submit").setAttribute("formaction", postTo);        
+        </script>
     </body>
 </html>
