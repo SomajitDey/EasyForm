@@ -181,3 +181,8 @@ function main() {
     }
 
 }
+
+if (sessionStorage.getItem("server")) {
+    spaHide("login");
+    startWorker();
+}
