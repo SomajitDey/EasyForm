@@ -32,7 +32,6 @@ function inbox(json){
     }
     
     data.Timestamp = Date();
-    const keysEnumArray = Object.keys(data); // Enumerated array of form fields.
 
     // Create table row:
     const row = document.createElement("tr");
@@ -40,12 +39,12 @@ function inbox(json){
     const header = document.getElementById("inboxHeader");
     if (! numTotalMsgs) { header.replaceChildren();}
     
-    for (let key in keysEnumArray) {
+    for (const key in data) {
         // Create cell:
         const cell = document.createElement("td");
 
         // Create a text entry:
-        entry = data[keysEnumArray[key]];
+        entry = data[key];
 
         // Append entry to cell:
         cell.append(entry);
@@ -57,7 +56,7 @@ function inbox(json){
             // Setup header according to the form fields. This is necessary as users may have custom form fields.
             // Create header block:
             const header_block = document.createElement("th");
-            header_block.append(keysEnumArray[key]);
+            header_block.append(key);
             header.append(header_block);
         }
     }

@@ -8,7 +8,7 @@ function urlEncoded2Json(str){
 
     const obj = new Object();
 
-    for (let el of arr) {
+    for (const el of arr) {
         let elArray = el.split('=');
         let val = decodeURIComponent(elArray[1].replace( /\+/g, ' ' )).replace(/"/g,'\\"'); // Decoded and escaped
         obj[elArray[0]]=val;
