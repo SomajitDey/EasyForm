@@ -102,6 +102,7 @@ const fetchChatID = async () => {
 async function config() {
     const uuid = document.getElementById("uuid").value;
     const response = await fetch(`https://securelay.vercel.app/keys/${uuid}`);
+    if (!response.ok) {alert('Invalid EasyForm Access Key!'); return;}
     const respJson = await response.json();
     const pubKey = respJson.public; console.log('Public key = ' + pubKey);
     const getFrom = 'https://securelay.vercel.app/private/' + uuid;
