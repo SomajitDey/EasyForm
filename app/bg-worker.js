@@ -18,6 +18,7 @@ function urlEncoded2Json(str){
 }
 
 async function pollApi(getFrom, postTo, TGchatID) {
+    const pollInterval = 5000; // in milliseconds
 
     const relay = async () => {
         let data; // This will hold the received URL encoded form data
@@ -27,12 +28,13 @@ async function pollApi(getFrom, postTo, TGchatID) {
         try {
             const response = await fetch(getFrom); // Make request
 
-            if (! response.ok) {
+            if (response.status !== 200) {
+                if (response.status === 404) return;
                 errLvl = 1; // Set error to critical/fatal
                 throw `GET @ ${getFrom} status: ${response.status}`;
             }
 
-            data = urlEncoded2Json(await response.text());
+            data = await response.text();
             // Send URL decoded form data as JSON string to main for logging. Also pass an error level.
             postMessage([data, 0]);
             
@@ -43,7 +45,7 @@ async function pollApi(getFrom, postTo, TGchatID) {
             return;
 
         } finally {
-            setTimeout(relay, 0); // Schedule next relay
+            setTimeout(relay, pollInterval); // Schedule next relay
         }
 
         // POST to Telegram

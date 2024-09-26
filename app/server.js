@@ -21,8 +21,9 @@ function updateUnreadCount(){
 }
 
 function inbox(json){
-    const data = JSON.parse(json); // Read form data into entry object
+    const dataArray = JSON.parse(json); // Read form data into entry object
     
+    for (const data of dataArray) {
     if (data.From === "EasyFormViewCounter") {
         let viewCount = localStorage.getItem("EasyFormViewCounter");
         ++viewCount;
@@ -68,12 +69,15 @@ function inbox(json){
     ++numTotalMsgs;
     updateUnreadCount("new");
 }
+}
 
-function genUUID() {
+async function genUUID() {
     // v4 UUID looks like xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx in hexadecimal. See Wikipedia.
     // M stores version & N, the variant. All the x digits above are cryptographically random.
     // For our uuid we simply choose the first block of hex chars from a v4 UUID.
-    document.getElementById("uuid").value = crypto.randomUUID().split('-')[0];
+    const response = await fetch('https://securelay.vercel.app/keys');
+    const keypair = await response.json();
+    document.getElementById("uuid").value = keypair.private;
 }
 
 const fetchChatID = async () => {
@@ -95,13 +99,15 @@ const fetchChatID = async () => {
     }
 }
 
-function config() {
-    const relayList = ["https://ppng.io", "https://piping.glitch.me", "https://demo.httprelay.io/link"];
+async function config() {
     const uuid = document.getElementById("uuid").value;
-    // Choose a random index in [0, relayList.length]. Use first two nibbles of uuid as random number in range [0,256].
-    const randomIdx = Math.floor(parseInt(uuid.substr(0,2),16)*relayList.length/256);
-    const getFrom = relayList[randomIdx] + '/' + uuid;
+    const response = await fetch(`https://securelay.vercel.app/keys/${uuid}`);
+    const respJson = await response.json();
+    const pubKey = respJson.public; console.log('Public key = ' + pubKey);
+    const getFrom = 'https://securelay.vercel.app/private/' + uuid;
     localStorage.setItem("getFrom", getFrom);
+    const formActionURL = 'https://securelay.vercel.app/public/' + pubKey;
+    localStorage.setItem("formActionURL", formActionURL);
     const postTo = 'https://api.telegram.org/bot' + document.getElementById("TGbotKey").value + '/sendMessage';
     localStorage.setItem("postTo", postTo);
     spaHide("login");
@@ -145,9 +151,11 @@ function startWorker() {
     logThis("Server started");
     document.getElementById("serverStatus").innerHTML = 'Live  <span class="spinner-grow spinner-grow-sm"></span>';
     
-    document.getElementById("formActionURL").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${getFrom}</u></p>`;
-    document.getElementById("readyForm").href = `./${btoa(getFrom).replace(/\+/g,'_').replace(/\//g,'-').replace(/=+$/,'')}`;
-    document.getElementById("testFormBtn").setAttribute("formaction", getFrom);
+    const formActionURL = localStorage.getItem("formActionURL");
+    console.log('Public key = ' + formActionURL);
+    document.getElementById("formActionURL").innerHTML = `<p class="alert alert-success">HTML Form Action URL: <u>${formActionURL}</u></p>`;
+    document.getElementById("readyForm").href = `./${btoa(formActionURL).replace(/\+/g,'_').replace(/\//g,'-').replace(/=+$/,'')}`;
+    document.getElementById("testFormBtn").setAttribute("formaction", formActionURL);
     spaShow("testForm");
 }
 
