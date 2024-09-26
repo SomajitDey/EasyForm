@@ -113,6 +113,7 @@ async function config() {
     spaHide("login");
     spaGoTo("server");
     localStorage.setItem("loggedIn", "true");
+    startWorker();
 }
 
 function startWorker() {
