@@ -29,7 +29,7 @@ function inbox(json){
         ++viewCount;
         document.getElementById("EasyFormViewCounter").innerText = `which has ${viewCount} views`;
         localStorage.setItem("EasyFormViewCounter", viewCount);
-        return;
+        continue;
     }
     
     data.Timestamp = Date();
