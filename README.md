@@ -1,3 +1,6 @@
+> :warning: **This project have matured into [Formonit](https://formonit.github.io).** Easyform, therefore, is
+no more maintained actively, although https://somajitdey.github.io/EasyForm/ still exists.
+
 # EasyForm
 
 EasyForm gives you a free and easy, self-hosted form backend solution for adding (contact) forms to your static
